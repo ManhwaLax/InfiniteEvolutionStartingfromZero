@@ -8,16 +8,21 @@
     body { font-family: Arial, sans-serif; background: #111; color: #fff; text-align: center; margin: 0; }
     header { background: #222; padding: 15px; font-size: 1.5rem; color: #4cc9f0; font-weight: bold; }
     .chapter-nav { margin: 15px; }
-    select {
+    select, button {
       padding: 10px; margin: 5px; font-size: 1rem;
       border-radius: 5px; border: none;
     }
+    button {
+      background: #4cc9f0; color: black; font-weight: bold; cursor: pointer;
+    }
+    button:hover { background: #00b4d8; }
     .reader img {
       width: 90%; max-width: 900px; margin: 20px auto;
       display: block; border-radius: 10px;
       box-shadow: 0px 4px 8px rgba(0,0,0,0.6);
     }
     .chapter-title { font-size: 1.3rem; margin-top: 10px; color: #fff; }
+    #nextChapterBtn { display: none; margin-bottom: 30px; }
   </style>
 </head>
 <body>
@@ -30,10 +35,11 @@
   </div>
 
   <div class="reader" id="reader"></div>
+  <button id="nextChapterBtn" onclick="goToNextChapter()">Next Chapter ➡</button>
 
   <script>
     let chapters = [];
-    for (let i = 13; i >= 1; i--) { // assuming 1 → 13
+    for (let i = 1; i <= 13; i++) { // chapters 1 → 13
       chapters.push(i);
     }
     let currentChapter = null;
@@ -46,6 +52,7 @@
 
       let reader = document.getElementById("reader");
       reader.innerHTML = "";
+      document.getElementById("nextChapterBtn").style.display = "none";
 
       let page = 1;
       function loadPage() {
@@ -57,10 +64,23 @@
           loadPage(); // load next page
         };
         img.onerror = () => {
-          // stop when no more pages
+          // No more pages, show Next Chapter button if there is a next chapter
+          let nextBtn = document.getElementById("nextChapterBtn");
+          let currentIdx = chapters.indexOf(currentChapter);
+          if (currentIdx < chapters.length - 1) {
+            nextBtn.style.display = "inline-block";
+          }
         };
       }
       loadPage();
+    }
+
+    function goToNextChapter() {
+      let currentIdx = chapters.indexOf(currentChapter);
+      if (currentIdx < chapters.length - 1) {
+        loadChapter(chapters[currentIdx + 1]);
+        window.scrollTo(0, 0); // scroll to top
+      }
     }
 
     window.onload = () => {
@@ -71,7 +91,7 @@
         opt.textContent = "Chapter " + ch;
         chapterSelect.appendChild(opt);
       });
-      loadChapter(chapters[0]); // start with latest
+      loadChapter(chapters[0]); // start with Chapter 1
     };
   </script>
 
