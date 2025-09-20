@@ -3,11 +3,11 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Manga Reader</title>
+  <title>Infinite Evolution Starting from Zero</title>
   <style>
     body { font-family: Arial, sans-serif; background: #111; color: #fff; text-align: center; margin: 0; }
-    header { background: #222; padding: 15px; font-size: 1.5rem; color: #4cc9f0; }
-    .chapter-nav { margin: 15px; }
+    header { background: #222; padding: 15px; font-size: 1.5rem; color: #4cc9f0; font-weight: bold; }
+    .chapter-nav { display: flex; justify-content: space-between; align-items: center; margin: 15px; flex-wrap: wrap; }
     select, button {
       padding: 10px; margin: 5px; font-size: 1rem;
       border-radius: 5px; border: none;
@@ -19,24 +19,25 @@
       display: block; border-radius: 10px;
       box-shadow: 0px 4px 8px rgba(0,0,0,0.6);
     }
+    .chapter-title { font-size: 1.3rem; margin-top: 10px; color: #fff; }
   </style>
 </head>
 <body>
 
-  <header>Manga Reader</header>
-  <h2 id="chapter-title">Loading...</h2>
+  <header>Infinite Evolution Starting from Zero</header>
+  <h2 class="chapter-title" id="chapter-title">Loading...</h2>
 
   <div class="chapter-nav">
-    <button onclick="changeChapter(-1)">⬅ Next</button>
+    <button onclick="changeChapter(-1)">⬅ PREVIOUS</button>
     <select id="chapterSelect" onchange="loadChapter(this.value)"></select>
-    <button onclick="changeChapter(1)">Previous➡</button>
+    <button onclick="changeChapter(1)">NEXT ➡</button>
   </div>
 
   <div class="reader" id="reader"></div>
 
   <script>
     let chapters = [];
-    for (let i = 300; i >= 1; i--) {  // preload 1 → 300
+    for (let i = 300; i >= 1; i--) { // assuming 1 → 300
       chapters.push(i);
     }
     let currentChapter = null;
@@ -54,13 +55,11 @@
       function loadPage() {
         let img = new Image();
         img.src = `chapters/${chapter}-${page}.jpg`;
-
         img.onload = () => {
           reader.appendChild(img);
           page++;
-          loadPage(); // keep loading next page
+          loadPage(); // load next page
         };
-
         img.onerror = () => {
           // stop when no more pages
         };
@@ -84,9 +83,9 @@
         opt.textContent = "Chapter " + ch;
         chapterSelect.appendChild(opt);
       });
-      loadChapter(chapters[0]); // start with latest (300)
+      loadChapter(chapters[0]); // start with latest
     };
   </script>
 
 </body>
-                                    </html>
+</html>
