@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Manga Reader</title>
+  <style>
+    body { font-family: Arial, sans-serif; background: #111; color: #fff; text-align: center; margin: 0; }
+    header { background: #222; padding: 15px; font-size: 1.5rem; color: #4cc9f0; }
+    .chapter-nav { margin: 15px; }
+    select, button {
+      padding: 10px; margin: 5px; font-size: 1rem;
+      border-radius: 5px; border: none;
+    }
+    button { background: #4cc9f0; color: black; font-weight: bold; cursor: pointer; }
+    button:hover { background: #00b4d8; }
+    .reader img {
+      width: 90%; max-width: 900px; margin: 20px auto;
+      display: block; border-radius: 10px;
+      box-shadow: 0px 4px 8px rgba(0,0,0,0.6);
+    }
+  </style>
+</head>
+<body>
+
+  <header>Manga Reader</header>
+  <h2 id="chapter-title">Loading...</h2>
+
+  <div class="chapter-nav">
+    <button onclick="changeChapter(-1)">⬅ PREVIOUS</button>
+    <select id="chapterSelect" onchange="loadChapter(this.value)"></select>
+    <button onclick="changeChapter(1)">NEXT ➡</button>
+  </div>
+
+  <div class="reader" id="reader"></div>
+
+  <script>
+    let chapters = [];
+    for (let i = 300; i >= 1; i--) {  // preload 1 → 300
+      chapters.push(i);
+    }
+    let currentChapter = null;
+
+    function loadChapter(chapter) {
+      chapter = parseInt(chapter);
+      currentChapter = chapter;
+      document.getElementById("chapter-title").textContent = "Chapter " + chapter;
+      document.getElementById("chapterSelect").value = chapter;
+
+      let reader = document.getElementById("reader");
+      reader.innerHTML = "";
+
+      let page = 1;
+      function loadPage() {
+        let img = new Image();
+        img.src = `chapters/${chapter}-${page}.jpg`;
+
+        img.onload = () => {
+          reader.appendChild(img);
+          page++;
+          loadPage(); // keep loading next page
+        };
+
+        img.onerror = () => {
+          // stop when no more pages
+        };
+      }
+      loadPage();
+    }
+
+    function changeChapter(offset) {
+      let idx = chapters.indexOf(currentChapter);
+      let newIdx = idx + offset;
+      if (newIdx >= 0 && newIdx < chapters.length) {
+        loadChapter(chapters[newIdx]);
+      }
+    }
+
+    window.onload = () => {
+      let chapterSelect = document.getElementById("chapterSelect");
+      chapters.forEach(ch => {
+        let opt = document.createElement("option");
+        opt.value = ch;
+        opt.textContent = "Chapter " + ch;
+        chapterSelect.appendChild(opt);
+      });
+      loadChapter(chapters[0]); // start with latest (300)
+    };
+  </script>
+
+</body>
+                                    </html>
