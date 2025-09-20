@@ -7,13 +7,11 @@
   <style>
     body { font-family: Arial, sans-serif; background: #111; color: #fff; text-align: center; margin: 0; }
     header { background: #222; padding: 15px; font-size: 1.5rem; color: #4cc9f0; font-weight: bold; }
-    .chapter-nav { display: flex; justify-content: space-between; align-items: center; margin: 15px; flex-wrap: wrap; }
-    select, button {
+    .chapter-nav { margin: 15px; }
+    select {
       padding: 10px; margin: 5px; font-size: 1rem;
       border-radius: 5px; border: none;
     }
-    button { background: #4cc9f0; color: black; font-weight: bold; cursor: pointer; }
-    button:hover { background: #00b4d8; }
     .reader img {
       width: 90%; max-width: 900px; margin: 20px auto;
       display: block; border-radius: 10px;
@@ -28,9 +26,7 @@
   <h2 class="chapter-title" id="chapter-title">Loading...</h2>
 
   <div class="chapter-nav">
-    <button onclick="changeChapter(-1)">⬅ PREVIOUS</button>
     <select id="chapterSelect" onchange="loadChapter(this.value)"></select>
-    <button onclick="changeChapter(1)">NEXT ➡</button>
   </div>
 
   <div class="reader" id="reader"></div>
@@ -65,14 +61,6 @@
         };
       }
       loadPage();
-    }
-
-    function changeChapter(offset) {
-      let idx = chapters.indexOf(currentChapter);
-      let newIdx = idx + offset;
-      if (newIdx >= 0 && newIdx < chapters.length) {
-        loadChapter(chapters[newIdx]);
-      }
     }
 
     window.onload = () => {
