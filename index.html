@@ -4,6 +4,16 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Infinite Evolution Starting from Zero</title>
+
+  <!-- Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-XXXXXXXXXX');
+  </script>
+
   <style>
     body { font-family: Arial, sans-serif; background: #111; color: #fff; text-align: center; margin: 0; }
     header { background: #222; padding: 15px; font-size: 1.5rem; color: #4cc9f0; font-weight: bold; }
@@ -23,11 +33,15 @@
     }
     .chapter-title { font-size: 1.3rem; margin-top: 10px; color: #fff; }
     #nextChapterBtn { display: none; margin-bottom: 30px; }
+
+    /* Hidden Visitor Counter */
+    #visitor-counter { display: none; }
   </style>
 </head>
 <body>
 
   <header>Infinite Evolution Starting from Zero</header>
+  <h1>Infinite Evolution Starting from Zero</h1>
   <h2 class="chapter-title" id="chapter-title">Loading...</h2>
 
   <div class="chapter-nav">
@@ -36,6 +50,12 @@
 
   <div class="reader" id="reader"></div>
   <button id="nextChapterBtn" onclick="goToNextChapter()">Next Chapter ➡</button>
+
+  <!-- Hidden Visitor Counter -->
+  <div id="visitor-counter">
+    <script type='text/javascript' src='https://www.freevisitorcounters.com/auth.php?id=0cea579e74b7d8c0f4b891bb57f47517ef36c09b'></script>
+<script type="text/javascript" src="https://www.freevisitorcounters.com/en/home/counter/1393512/t/0"></script>
+  </div>
 
   <script>
     let chapters = [];
@@ -61,10 +81,9 @@
         img.onload = () => {
           reader.appendChild(img);
           page++;
-          loadPage(); // load next page
+          loadPage();
         };
         img.onerror = () => {
-          // No more pages, show Next Chapter button if there is a next chapter
           let nextBtn = document.getElementById("nextChapterBtn");
           let currentIdx = chapters.indexOf(currentChapter);
           if (currentIdx < chapters.length - 1) {
@@ -79,7 +98,7 @@
       let currentIdx = chapters.indexOf(currentChapter);
       if (currentIdx < chapters.length - 1) {
         loadChapter(chapters[currentIdx + 1]);
-        window.scrollTo(0, 0); // scroll to top
+        window.scrollTo(0, 0);
       }
     }
 
@@ -91,7 +110,7 @@
         opt.textContent = "Chapter " + ch;
         chapterSelect.appendChild(opt);
       });
-      loadChapter(chapters[0]); // start with Chapter 1
+      loadChapter(chapters[0]);
     };
   </script>
 
